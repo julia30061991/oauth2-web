@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -22,29 +21,19 @@ public class RestController {
         this.userService = userService;
     }
 
-    @GetMapping("/") //доступно любому пользователю
+    @GetMapping("/") //доступно без аутентификации
     public String unidentifiedUser() {
         return "You are an unidentified user";
     }
 
-    @GetMapping("/info") //доступно аутентифицированному пользователю, краткая информация и запись в бд
+    @PreAuthorize("hasAuthority('ROLE_USER')") //доступно аутентифицированному пользователю user
+    @GetMapping("/info") //краткая информация и запись в бд
     public String getUserInfo(OAuth2AuthenticationToken token) throws Exception {
-        Object name = "";
-        Object email = "";
-        Map<String, Object> info = token.getPrincipal().getAttributes();
-        for (String key : info.keySet()) {
-            if (key.equals("name")) {
-                name = info.get(key);
-            }
-            if (key.equals("email")) {
-                email = info.get(key);
-            }
+        try {
+            return userService.getUserInfo(token);
+        } catch (Exception e) {
+            return e.getMessage();
         }
-        Collection<GrantedAuthority> authorities = token.getAuthorities();
-        List<GrantedAuthority> roles = new ArrayList<>(authorities);
-        Object role = roles.get(0);
-        userService.createUser(name.toString(), email.toString(), role.toString());
-        return "1. User name: " + name + " 2. User email: " + email + " 3. Role: " + role;
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')") //доступно аутентифицированному пользователю user

@@ -14,6 +14,8 @@ public class User implements Serializable {
     @Column(name = "user_id", columnDefinition = "INT", unique = true, nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
+    @Column(name = "username", columnDefinition = "VARCHAR(255)")
+    private String username;
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;
     @Column(name = "email", columnDefinition = "VARCHAR(255)")
@@ -22,7 +24,8 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String name, String email) {
+    public User(String username, String name, String email) {
+        this.username = username;
         this.name = name;
         this.email = email;
     }
