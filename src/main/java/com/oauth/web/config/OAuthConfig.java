@@ -31,7 +31,7 @@ public class OAuthConfig {
                             try {
                                 authorize
                                         .antMatchers("/").permitAll()
-                                        .antMatchers("/show", "/create", "/info").hasAuthority("ROLE_USER")
+                                        .antMatchers("/info", "/registration").hasAuthority("ROLE_USER")
                                         .antMatchers("/delete/{id}").hasAuthority("ROLE_ADMIN")
                                         .anyRequest().authenticated()
                                         .and().formLogin().permitAll()
@@ -66,10 +66,9 @@ public class OAuthConfig {
 
     private ClientRegistration googleClientRegistration() {
         return CommonOAuth2Provider.GOOGLE.getBuilder("google")
-                .clientId("554263912389-8se3gv4iffa8lhthk9a2j8imoar7gqk0.apps.googleusercontent.com")
-                .clientSecret("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")
+                .clientId("clientId")
+                .clientSecret("clientSecret")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                .redirectUri("http://localhost:8080/login/oauth2/code/authorization-code")
                 .build();
     }
 }

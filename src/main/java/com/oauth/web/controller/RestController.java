@@ -27,8 +27,8 @@ public class RestController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')") //доступно аутентифицированному пользователю user
-    @GetMapping("/info") //краткая информация и запись в бд
-    public String getUserInfo(OAuth2AuthenticationToken token) throws Exception {
+    @GetMapping("/registration") //краткая информация и запись в бд
+    public String addRegistration(OAuth2AuthenticationToken token) throws Exception {
         try {
             return userService.getUserInfo(token);
         } catch (Exception e) {
@@ -37,8 +37,8 @@ public class RestController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')") //доступно аутентифицированному пользователю user
-    @GetMapping("/show")
-    public ResponseEntity<Object> getAll() {
+    @GetMapping("/info")
+    public ResponseEntity<Object> getAllUsers() {
         try {
             List<User> list = userService.getAllUsers();
             return new ResponseEntity<>(list, HttpStatus.OK);

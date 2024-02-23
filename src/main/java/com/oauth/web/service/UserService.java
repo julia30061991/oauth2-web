@@ -13,5 +13,5 @@ public interface UserService {
 
     void deleteUser(int id) throws Exception;
 
-    String getUserInfo(OAuth2AuthenticationToken token) throws Exception;
+    String addRegistration(OAuth2AuthenticationToken token) throws Exception;
 }

@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
             throw new Exception("No one field cannot be empty");
         }
         if (userRepository.existsUserByEmail(email)) {
-            throw new Exception("This email was already registered");
+            throw new Exception("This user was already registered, information: " +
+                    "name: " + name + ", email: " + email + ", role: " + role);
         }
         User user = new User(username, name, email);
         switch (role) {
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getUserInfo(OAuth2AuthenticationToken token) throws Exception {
+    public String addRegistration(OAuth2AuthenticationToken token) throws Exception {
         Object name = "";
         Object email = "";
         Map<String, Object> info = token.getPrincipal().getAttributes();
@@ -75,6 +76,7 @@ public class UserServiceImpl implements UserService {
         Object role = roles.get(0);
         String username = token.getName();
         createUser(username, name.toString(), email.toString(), role.toString());
-        return "1. User name: " + name + " 2. User email: " + email + " 3. Role: " + role;
+        return "You are registered in the application, information: " +
+                "name: " + name + ", email: " + email + ", role: " + role;
     }
 }

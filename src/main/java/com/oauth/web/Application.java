@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.oauth.web.repository")
 @ComponentScan({"com.oauth.web.controller", "com.oauth.web.service",
-        "com.oauth.web.config", "com.oauth.web.security"})
+        "com.oauth.web.config"})
 @EntityScan("com.oauth.web.model")
 public class Application {
     public static void main(String[] args) {
